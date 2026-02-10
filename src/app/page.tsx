@@ -68,29 +68,6 @@ const MENU_SECTIONS = [
   },
 ];
 
-const MENU_ICONS: Record<string, React.ReactNode> = {
-  tapas: (
-    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
-    </svg>
-  ),
-  flame: (
-    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1.001A3.75 3.75 0 0012 18z" />
-    </svg>
-  ),
-  region: (
-    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5" />
-    </svg>
-  ),
-  pizza: (
-    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513M15 8.25v-1.5m-6 1.5v-1.5m12 9.75l-1.5.75a3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0L3 16.5m15-3.379a48.474 48.474 0 00-6-.371c-2.032 0-4.034.126-6 .371m12 0c.39.049.777.102 1.163.16 1.07.16 1.837 1.094 1.837 2.175v5.169c0 .621-.504 1.125-1.125 1.125H4.125A1.125 1.125 0 013 20.625v-5.17c0-1.08.768-2.014 1.837-2.174A47.78 47.78 0 016 13.12M12.265 3.11a.375.375 0 11-.53 0L12 2.845l.265.265z" />
-    </svg>
-  ),
-};
 
 const REVIEWS = [
   {
@@ -344,25 +321,20 @@ export default function Home() {
 
                   {/* Content */}
                   <div className="relative z-10 flex h-full flex-col p-8 md:p-10">
-                    {/* Top row: price badge + icon */}
-                    <div className="mb-auto flex items-start justify-between">
-                      <div>
-                        {section.from && (
-                          <span
-                            className="inline-block px-3 py-1 text-[10px] font-semibold tracking-wider text-gold uppercase"
-                            style={{ backgroundColor: "rgba(201,169,110,0.12)", backdropFilter: "blur(4px)" }}
-                          >
-                            {section.from}
-                          </span>
-                        )}
+                    {/* Price badge */}
+                    {section.from && (
+                      <div className="mb-auto">
+                        <span
+                          className="inline-block px-3 py-1 text-[10px] font-semibold tracking-wider text-gold uppercase"
+                          style={{ backgroundColor: "rgba(201,169,110,0.12)" }}
+                        >
+                          {section.from}
+                        </span>
                       </div>
-                      <div className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-gold/60 transition-all duration-300 group-hover:border-gold/40 group-hover:text-gold" style={{ backgroundColor: "rgba(255,255,255,0.05)", backdropFilter: "blur(6px)" }}>
-                        {MENU_ICONS[section.icon]}
-                      </div>
-                    </div>
+                    )}
 
                     {/* Title */}
-                    <div className="mt-10">
+                    <div className={section.from ? "mt-6" : "mt-0"}>
                       <h3 className="font-serif text-2xl font-semibold text-white md:text-[1.7rem]">{section.title}</h3>
                       <p className="mt-1 text-sm font-light text-gold/70">{section.description}</p>
                       <div className="mt-4 h-px w-10 bg-gold/40 transition-all duration-500 group-hover:w-16" />
