@@ -10,7 +10,7 @@ export default function FirstVisitPopup() {
 
   useEffect(() => {
     if (localStorage.getItem(STORAGE_KEY)) return;
-    const timer = setTimeout(() => setVisible(true), 2500);
+    const timer = setTimeout(() => setVisible(true), 15000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -85,10 +85,10 @@ export default function FirstVisitPopup() {
           </div>
 
           <h2 className="text-2xl font-bold leading-tight text-white">
-            Vous aimez ce site ?
+            Vous aimez la v2 de votre site ?
           </h2>
           <p className="mt-2 text-base leading-relaxed" style={{ color: "rgba(255,255,255,0.8)" }}>
-            On l&apos;a con&ccedil;u et d&eacute;velopp&eacute; de A &agrave; Z.
+            Votre histoire, notre savoir-faire &mdash; une nouvelle version &agrave; votre image.
           </p>
         </div>
 
