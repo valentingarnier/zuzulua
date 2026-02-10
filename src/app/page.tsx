@@ -193,19 +193,6 @@ export default function Home() {
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-charcoal to-transparent" />
           <ImageCarousel />
         </div>
-
-        {/* Partners bar */}
-        <div className="border-t border-white/5 py-6">
-          <div className="flex flex-wrap items-center justify-center gap-8 px-8 md:gap-14">
-            <span className="text-[10px] font-semibold tracking-[0.3em] text-white/20 uppercase">
-              Nos partenaires
-            </span>
-            {/* eslint-disable @next/next/no-img-element */}
-            <img src="/partner-baskpeche.png" alt="BASKpêche" className="h-6 opacity-30 transition-all hover:opacity-70 md:h-8" style={{ filter: "invert(1) grayscale(1)" }} />
-            <img src="/partner-randoquad.png" alt="Rando Quad Pays Basque" className="h-8 opacity-30 transition-all hover:opacity-70 md:h-10" style={{ filter: "invert(1) grayscale(1)" }} />
-            {/* eslint-enable @next/next/no-img-element */}
-          </div>
-        </div>
       </section>
 
       {/* ─── NOTRE HISTOIRE ─── */}
