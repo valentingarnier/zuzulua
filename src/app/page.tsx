@@ -7,6 +7,7 @@ const MENU_SECTIONS = [
     title: "Tapas",
     description: "À partir de 6,50 €",
     icon: "tapas",
+    image: "/tapas.jpg",
     items: [
       "Pâté Basque maison",
       "Jambon Ibérico",
@@ -23,6 +24,7 @@ const MENU_SECTIONS = [
     title: "Viandes et Poissons",
     description: "Au feu de bois",
     icon: "flame",
+    image: "/cote-de-boeuf.jpg",
     items: [
       "Côte de Bœuf",
       "Pluma Bellota",
@@ -40,6 +42,7 @@ const MENU_SECTIONS = [
     title: "Plats Régionaux",
     description: "L\u2019âme du Pays Basque",
     icon: "region",
+    image: "/ambiance-conviviale.jpg",
     items: [
       "Axoa de veau d\u2019Espelette",
       "Magret de canard",
@@ -54,6 +57,7 @@ const MENU_SECTIONS = [
     title: "Pizzas Artisanales",
     description: "Cuites au feu de bois",
     icon: "pizza",
+    image: "/braises.jpg",
     items: [
       "Pâte fraîche maison",
       "Produits frais et locaux",
@@ -322,75 +326,98 @@ export default function Home() {
             </div>
           </RevealOnScroll>
 
-          <div className="grid gap-8 sm:grid-cols-2">
+          <div className="grid gap-6 sm:grid-cols-2">
             {MENU_SECTIONS.map((section, idx) => (
               <RevealOnScroll
                 key={section.title}
                 variant="fade-scale"
                 delay={idx * 150}
               >
-                <div
-                  className="group relative h-full border border-white/10 bg-white/[0.02] p-8 transition-all duration-300 hover:border-gold/30 hover:bg-white/[0.05] md:p-10"
-                >
-                  {/* Gold corner accents */}
-                  <div className="absolute top-0 left-0 h-8 w-px bg-gold/0 transition-all duration-500 group-hover:h-12 group-hover:bg-gold/50" />
-                  <div className="absolute top-0 left-0 h-px w-8 bg-gold/0 transition-all duration-500 group-hover:w-12 group-hover:bg-gold/50" />
-                  <div className="absolute right-0 bottom-0 h-8 w-px bg-gold/0 transition-all duration-500 group-hover:h-12 group-hover:bg-gold/50" />
-                  <div className="absolute right-0 bottom-0 h-px w-8 bg-gold/0 transition-all duration-500 group-hover:w-12 group-hover:bg-gold/50" />
+                <div className="group relative h-full overflow-hidden">
+                  {/* Photo background with zoom */}
+                  <div
+                    className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-110"
+                    style={{
+                      backgroundImage: `url(${section.image})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  />
+                  {/* Gradient overlay — heavy at bottom for readability */}
+                  <div
+                    className="absolute inset-0 transition-opacity duration-500"
+                    style={{ background: "linear-gradient(to top, #1a1a1a 40%, rgba(26,26,26,0.88) 65%, rgba(26,26,26,0.55) 100%)" }}
+                  />
+                  {/* Hover glow */}
+                  <div
+                    className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                    style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(201,169,110,0.08) 0%, transparent 70%)" }}
+                  />
+                  {/* Gold left accent bar */}
+                  <div className="absolute top-0 left-0 z-20 h-full w-1 bg-gold/0 transition-all duration-500 group-hover:bg-gold/50" />
 
-                  {/* Header */}
-                  <div className="mb-6 flex items-start justify-between">
-                    <div>
-                      <h3 className="font-serif text-2xl font-semibold text-white">{section.title}</h3>
-                      <p className="mt-1 text-sm font-light text-gold/80">{section.description}</p>
+                  {/* Content */}
+                  <div className="relative z-10 flex h-full flex-col p-8 md:p-10">
+                    {/* Top row: price badge + icon */}
+                    <div className="mb-auto flex items-start justify-between">
+                      <div>
+                        {section.from && (
+                          <span
+                            className="inline-block px-3 py-1 text-[10px] font-semibold tracking-wider text-gold uppercase"
+                            style={{ backgroundColor: "rgba(201,169,110,0.12)", backdropFilter: "blur(4px)" }}
+                          >
+                            {section.from}
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-gold/60 transition-all duration-300 group-hover:border-gold/40 group-hover:text-gold" style={{ backgroundColor: "rgba(255,255,255,0.05)", backdropFilter: "blur(6px)" }}>
+                        {MENU_ICONS[section.icon]}
+                      </div>
                     </div>
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center border border-white/10 text-gold/50 transition-all duration-300 group-hover:border-gold/30 group-hover:text-gold">
-                      {MENU_ICONS[section.icon]}
+
+                    {/* Title */}
+                    <div className="mt-10">
+                      <h3 className="font-serif text-2xl font-semibold text-white md:text-[1.7rem]">{section.title}</h3>
+                      <p className="mt-1 text-sm font-light text-gold/70">{section.description}</p>
+                      <div className="mt-4 h-px w-10 bg-gold/40 transition-all duration-500 group-hover:w-16" />
                     </div>
-                  </div>
 
-                  {/* Divider */}
-                  <div className="relative mb-6">
-                    <div className="h-px w-full bg-white/10" />
-                    <div className="absolute left-0 top-0 h-px w-0 bg-gold/40 transition-all duration-700 group-hover:w-full" />
-                  </div>
+                    {/* Items */}
+                    <ul className="mt-6 space-y-2.5">
+                      {section.items.map((item) => {
+                        const isSig = section.signature === item;
+                        return (
+                          <li key={item} className={`flex items-center gap-3 text-sm ${isSig ? "font-medium text-white" : "font-light text-white/55"}`}>
+                            {isSig ? (
+                              <svg className="h-3.5 w-3.5 shrink-0 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                              </svg>
+                            ) : (
+                              <span className="h-px w-3 shrink-0 bg-gold/30" />
+                            )}
+                            <span>{item}</span>
+                            {isSig && (
+                              <span className="ml-auto shrink-0 px-2 py-0.5 text-[9px] font-semibold tracking-wider text-gold uppercase" style={{ backgroundColor: "rgba(201,169,110,0.12)" }}>
+                                Signature
+                              </span>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </ul>
 
-                  {/* Items */}
-                  <ul className="space-y-3">
-                    {section.items.map((item) => {
-                      const isSig = section.signature === item;
-                      return (
-                        <li key={item} className={`flex items-start gap-3 text-sm ${isSig ? "font-medium text-white" : "font-light text-white/60"}`}>
-                          {isSig ? (
-                            <svg className="mt-0.5 h-4 w-4 shrink-0 text-gold" fill="currentColor" viewBox="0 0 20 20">
-                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                          ) : (
-                            <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-gold/50" />
-                          )}
-                          {item}
-                          {isSig && <span className="ml-auto shrink-0 text-[10px] font-semibold tracking-wider text-gold uppercase">Signature</span>}
-                        </li>
-                      );
-                    })}
-                  </ul>
-
-                  {/* Footer */}
-                  <div className="mt-6">
-                    {section.from && (
-                      <p className="text-xs font-semibold tracking-wider text-white/40 uppercase">{section.from}</p>
-                    )}
+                    {/* Note */}
                     {section.note && (
-                      <div className="flex items-start gap-2">
+                      <div className="mt-6 flex items-start gap-2">
                         <div className="mt-0.5 h-3 w-px shrink-0 bg-gold/50" />
-                        <p className="text-xs font-medium tracking-wider text-gold/70 italic">{section.note}</p>
+                        <p className="text-xs font-medium tracking-wider text-gold/60 italic">{section.note}</p>
                       </div>
                     )}
-                  </div>
 
-                  {/* Card number */}
-                  <div className="absolute right-4 bottom-4 font-serif text-5xl font-bold leading-none text-white/[0.03] transition-colors duration-300 group-hover:text-gold/[0.06]">
-                    {String(idx + 1).padStart(2, "0")}
+                    {/* Card number watermark */}
+                    <div className="absolute right-4 bottom-4 font-serif text-6xl font-bold leading-none text-white/[0.03] transition-colors duration-300 group-hover:text-gold/[0.06]">
+                      {String(idx + 1).padStart(2, "0")}
+                    </div>
                   </div>
                 </div>
               </RevealOnScroll>
@@ -421,78 +448,127 @@ export default function Home() {
       {/* ─── À EMPORTER & PIZZA 24/7 ─── */}
       <section id="emporter" className="bg-cream py-24 md:py-32">
         <div className="mx-auto max-w-6xl px-8">
-          <div className="mb-16 text-center">
-            <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">
-              Vente &agrave; emporter
-            </p>
-            <h2 className="font-serif text-3xl font-semibold text-charcoal md:text-4xl lg:text-5xl">
-              A Emporter / Livraison
-            </h2>
-            <div className="mx-auto mt-4 h-px w-16 bg-gold" />
-          </div>
-          <div className="grid gap-8 md:grid-cols-2">
-            <div className="border border-warm-200 bg-white p-10 transition-all hover:shadow-lg">
-              <div className="mb-6 flex h-14 w-14 items-center justify-center bg-charcoal">
-                <svg className="h-7 w-7 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                </svg>
-              </div>
-              <h3 className="font-serif text-2xl font-semibold text-charcoal">&Agrave; Emporter</h3>
-              <p className="mt-3 text-sm leading-relaxed text-charcoal/60">
-                Retrouvez toute notre carte en vente &agrave; emporter. Commandez par t&eacute;l&eacute;phone
-                et r&eacute;cup&eacute;rez directement au restaurant. Pizzas, grillades, tapas &mdash; tout le go&ucirc;t du Zuzulua chez vous.
+          <RevealOnScroll variant="fade-up">
+            <div className="mb-16 text-center">
+              <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">
+                Vente &agrave; emporter
               </p>
-              <div className="mt-6 h-px w-full bg-warm-200" />
-              <div className="mt-6 flex flex-wrap items-center gap-4">
-                <a href="tel:0559439472" className="inline-flex items-center gap-3 text-lg font-semibold text-charcoal transition-colors hover:text-gold">
-                  <PhoneIcon className="h-5 w-5 text-gold" />
-                  05 59 43 94 72
-                </a>
-                <a href="/emporter" className="inline-flex items-center gap-2 text-sm font-semibold text-gold transition-colors hover:text-gold-dark">
-                  Voir la carte
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                  </svg>
-                </a>
+              <h2 className="font-serif text-3xl font-semibold text-charcoal md:text-4xl lg:text-5xl">
+                &Agrave; Emporter &amp; Livraison
+              </h2>
+              <div className="mx-auto mt-4 h-px w-16 bg-gold" />
+            </div>
+          </RevealOnScroll>
+
+          {/* À Emporter — horizontal hero card */}
+          <RevealOnScroll variant="fade-scale" delay={100}>
+            <div className="group relative mb-6 grid overflow-hidden md:grid-cols-5">
+              {/* Photo side */}
+              <div className="relative h-64 md:col-span-2 md:h-auto">
+                <div
+                  className="absolute inset-0 transition-transform duration-700 group-hover:scale-105"
+                  style={{
+                    backgroundImage: "url(/terrasse-riviere.jpg)",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to right, transparent 50%, rgba(26,26,26,1) 100%)" }} />
+                <div className="absolute inset-0 md:hidden" style={{ background: "linear-gradient(to bottom, transparent 40%, rgba(26,26,26,1) 100%)" }} />
+              </div>
+              {/* Content side */}
+              <div className="relative md:col-span-3" style={{ backgroundColor: "#1a1a1a" }}>
+                <div className="relative z-10 p-8 md:p-10 lg:p-12">
+                  <div className="mb-5 flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center bg-gold">
+                      <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="font-serif text-2xl font-semibold text-white">&Agrave; Emporter</h3>
+                  </div>
+                  <p className="max-w-md text-sm leading-relaxed text-white/55">
+                    Retrouvez toute notre carte en vente &agrave; emporter. Commandez par t&eacute;l&eacute;phone
+                    et r&eacute;cup&eacute;rez directement au restaurant. Pizzas, grillades, tapas &mdash; tout le go&ucirc;t du Zuzulua chez vous.
+                  </p>
+                  <div className="mt-6 h-px w-full bg-white/10" />
+                  <div className="mt-6 flex flex-wrap items-center gap-5">
+                    <a href="tel:0559439472" className="inline-flex items-center gap-3 bg-gold px-8 py-3.5 text-sm font-semibold tracking-widest text-white uppercase transition-all hover:bg-gold-dark">
+                      <PhoneIcon className="h-4 w-4" />
+                      Commander
+                    </a>
+                    <a href="/emporter" className="inline-flex items-center gap-2 text-sm font-semibold text-gold transition-colors hover:text-gold-dark">
+                      Voir la carte
+                      <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="border border-warm-200 bg-white p-10 transition-all hover:shadow-lg">
-              <div className="mb-6 flex h-14 w-14 items-center justify-center bg-gold">
-                <svg className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="font-serif text-2xl font-semibold text-charcoal">Pizza 24/7</h3>
-              <div className="mt-2 inline-block bg-gold/10 px-3 py-1">
-                <span className="text-xs font-semibold tracking-wider text-gold uppercase">Disponible 24h/24 &middot; 7j/7</span>
-              </div>
-              <p className="mt-3 text-sm leading-relaxed text-charcoal/60">
-                Envie d&apos;une pizza &agrave; toute heure ? Notre distributeur automatique de pizzas fra&icirc;ches est disponible
-                24 heures sur 24, directement sur le parking du restaurant.
-              </p>
-              <div className="mt-6 h-px w-full bg-warm-200" />
-              <div className="mt-6 flex flex-wrap items-center gap-4">
-                <a
-                  href="https://www.google.com/maps/dir//Zuzulua+Saint-P%C3%A9e-sur-Nivelle"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-charcoal transition-colors hover:text-gold"
-                >
-                  <svg className="h-5 w-5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 0115 0z" />
-                  </svg>
-                  Itin&eacute;raire
-                </a>
-                <a href="/pizza-24" className="inline-flex items-center gap-2 text-sm font-semibold text-gold transition-colors hover:text-gold-dark">
-                  D&eacute;couvrir
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                  </svg>
-                </a>
+          </RevealOnScroll>
+
+          {/* Pizza 24/7 — bold banner card */}
+          <RevealOnScroll variant="fade-scale" delay={250}>
+            <div className="group relative overflow-hidden" style={{ backgroundColor: "#1a1a1a" }}>
+              {/* Subtle embers bg */}
+              <div
+                className="absolute inset-0 opacity-[0.12] transition-transform duration-700 group-hover:scale-105"
+                style={{ backgroundImage: "url(/braises.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}
+              />
+              <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 80% 50%, rgba(201,169,110,0.08) 0%, transparent 60%)" }} />
+
+              <div className="relative z-10 flex flex-col items-center gap-8 p-8 md:flex-row md:p-10 lg:p-12">
+                {/* Left: big "24/7" typographic element */}
+                <div className="flex shrink-0 items-center gap-5">
+                  <div className="relative">
+                    <span className="font-serif text-6xl font-bold text-gold md:text-7xl">24</span>
+                    <span className="absolute -right-3 -top-1 font-serif text-2xl font-bold text-gold/50">/7</span>
+                  </div>
+                  <div className="hidden h-16 w-px bg-white/10 md:block" />
+                </div>
+
+                {/* Center: content */}
+                <div className="flex-1 text-center md:text-left">
+                  <div className="mb-2 flex items-center justify-center gap-2 md:justify-start">
+                    <span className="relative flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-75" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
+                    </span>
+                    <span className="text-[10px] font-semibold tracking-[0.3em] text-gold uppercase">Ouvert en permanence</span>
+                  </div>
+                  <h3 className="font-serif text-2xl font-semibold text-white">Pizza 24/7</h3>
+                  <p className="mt-2 max-w-lg text-sm leading-relaxed text-white/50">
+                    Envie d&apos;une pizza &agrave; toute heure ? Notre distributeur automatique de pizzas fra&icirc;ches
+                    est disponible 24h/24, directement sur le parking du restaurant.
+                  </p>
+                </div>
+
+                {/* Right: CTAs */}
+                <div className="flex shrink-0 flex-col gap-3 sm:flex-row md:flex-col">
+                  <a
+                    href="https://www.google.com/maps/dir//Zuzulua+Saint-P%C3%A9e-sur-Nivelle"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-gold px-6 py-3 text-sm font-semibold tracking-widest text-white uppercase transition-all hover:bg-gold-dark"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 0115 0z" />
+                    </svg>
+                    Itin&eacute;raire
+                  </a>
+                  <a href="/pizza-24" className="inline-flex items-center justify-center gap-2 border border-white/15 px-6 py-3 text-sm font-semibold tracking-widest text-white/70 uppercase transition-all hover:border-white/30 hover:text-white">
+                    D&eacute;couvrir
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
+          </RevealOnScroll>
         </div>
       </section>
 

@@ -108,9 +108,11 @@ export default function FirstVisitPopup() {
             Un projet web en t&ecirc;te ? Site vitrine, refonte, identit&eacute; visuelle &mdash; on s&apos;occupe de tout, avec soin.
           </p>
 
-          {/* Email CTA */}
+          {/* CTA */}
           <a
-            href="mailto:jix.poylo@txuz.one"
+            href="https://txuz.one"
+            target="_blank"
+            rel="noopener noreferrer"
             className="mt-6 flex w-full items-center justify-center gap-3 rounded-xl px-6 py-4 text-sm font-semibold text-white transition-all hover:scale-[1.02] hover:shadow-lg active:scale-[0.98]"
             style={{
               background: "linear-gradient(135deg, #a882f3 0%, #7c3aed 100%)",
@@ -118,9 +120,9 @@ export default function FirstVisitPopup() {
             }}
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
             </svg>
-            Nous contacter
+            D&eacute;couvrir txuz.one
           </a>
 
           <p className="mt-3 text-center text-xs" style={{ color: "#94a3b8" }}>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import FirstVisitPopup from "./FirstVisitPopup";
+import StickyBanner from "./StickyBanner";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -50,6 +51,7 @@ export default function RootLayout({
       >
         {children}
         <FirstVisitPopup />
+        <StickyBanner />
       </body>
     </html>
   );

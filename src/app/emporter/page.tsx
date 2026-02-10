@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import NavBar from "../NavBar";
+import RevealOnScroll from "../RevealOnScroll";
 
 export const metadata: Metadata = {
   title: "À Emporter & Livraison — Zuzulua | Saint-Pée-sur-Nivelle",
@@ -8,18 +9,18 @@ export const metadata: Metadata = {
 };
 
 const PIZZAS = [
-  { name: "Margherita", price: "10 €" },
-  { name: "Regina", price: "12 €" },
-  { name: "Saumon", price: "13 €" },
-  { name: "Primavera", price: "11 €" },
-  { name: "Burger", price: "13 €" },
-  { name: "Ch\u00e8vre-Miel", price: "12 €" },
-  { name: "Spicy Italian", price: "13 €" },
-  { name: "L\u2019Italienne", price: "12 €" },
-  { name: "C\u00e9sar", price: "13 €" },
-  { name: "4 Fromages", price: "12 €" },
-  { name: "Carbonara", price: "13 €" },
-  { name: "Truffe", price: "16 €" },
+  { name: "Margherita", price: "10 \u20ac" },
+  { name: "Regina", price: "12 \u20ac" },
+  { name: "Saumon", price: "13 \u20ac" },
+  { name: "Primavera", price: "11 \u20ac" },
+  { name: "Burger", price: "13 \u20ac" },
+  { name: "Ch\u00e8vre-Miel", price: "12 \u20ac" },
+  { name: "Spicy Italian", price: "13 \u20ac" },
+  { name: "L\u2019Italienne", price: "12 \u20ac" },
+  { name: "C\u00e9sar", price: "13 \u20ac" },
+  { name: "4 Fromages", price: "12 \u20ac" },
+  { name: "Carbonara", price: "13 \u20ac" },
+  { name: "Truffe", price: "16 \u20ac" },
 ];
 
 const TAPAS = [
@@ -39,6 +40,40 @@ const SUPPLEMENTS = [
   { name: "Truffe", price: "2,50 \u20ac" },
 ];
 
+const ORDER_STEPS = [
+  {
+    step: "01",
+    title: "Appelez-nous",
+    desc: "Passez votre commande par t\u00e9l\u00e9phone au 05 59 43 94 72, du mardi au dimanche de 18h30 \u00e0 22h.",
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+      </svg>
+    ),
+  },
+  {
+    step: "02",
+    title: "Pr\u00e9paration",
+    desc: "Nos pizza\u00efols pr\u00e9parent votre commande avec des produits frais et locaux, cuite au feu de bois.",
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1.001A3.75 3.75 0 0012 18z" />
+      </svg>
+    ),
+  },
+  {
+    step: "03",
+    title: "R\u00e9cup\u00e9rez ou livraison",
+    desc: "Retirez au restaurant ou faites-vous livrer \u00e0 Sare, Saint-P\u00e9e-sur-Nivelle ou Ainhoa.",
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.375 14.25h17.25" />
+      </svg>
+    ),
+  },
+];
+
 function PhoneIcon({ className = "h-5 w-5" }: { className?: string }) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -53,9 +88,11 @@ export default function Emporter() {
       <NavBar />
 
       {/* ─── HERO ─── */}
-      <section className="relative bg-charcoal pt-40 pb-24 md:pb-32">
+      <section className="relative overflow-hidden bg-charcoal pt-40 pb-28 md:pb-36">
         <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "url(/terrasse-guirlandes.jpg)", backgroundSize: "cover", backgroundPosition: "center" }} />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(26,26,26,0.95) 0%, rgba(26,26,26,0.9) 100%)" }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(26,26,26,0.95) 0%, rgba(26,26,26,0.85) 50%, rgba(26,26,26,0.98) 100%)" }} />
+        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 60%, rgba(201,169,110,0.06) 0%, transparent 70%)" }} />
+
         <div className="relative z-10 mx-auto max-w-4xl px-8 text-center">
           <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">
             Vente &agrave; emporter &amp; livraison
@@ -64,12 +101,11 @@ export default function Emporter() {
             Savourez Zuzulua chez vous
           </h1>
           <div className="mx-auto mt-4 h-px w-16 bg-gold" />
-          <p className="mx-auto mt-6 max-w-xl text-base font-light text-white/50">
+          <p className="mx-auto mt-6 max-w-xl text-base font-light leading-relaxed text-white/50">
             Nos pizzas sont cr&eacute;&eacute;es et &eacute;labor&eacute;es par Julie, &eacute;l&egrave;ve dipl&ocirc;m&eacute;e
-            de l&apos;association des pizzaïols de France.
+            de l&apos;association des pizza&iuml;ols de France.
           </p>
 
-          {/* Phone CTA */}
           <a
             href="tel:0559439472"
             className="mt-10 inline-flex items-center gap-3 bg-gold px-12 py-5 text-base font-semibold tracking-widest text-white uppercase transition-all hover:bg-gold-dark"
@@ -78,7 +114,6 @@ export default function Emporter() {
             Commander : 05 59 43 94 72
           </a>
 
-          {/* Service info */}
           <div className="mx-auto mt-8 flex flex-wrap items-center justify-center gap-6 md:gap-10">
             <div className="flex items-center gap-2">
               <svg className="h-5 w-5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -99,67 +134,89 @@ export default function Emporter() {
       {/* ─── PIZZAS ─── */}
       <section className="bg-cream py-24 md:py-32">
         <div className="mx-auto max-w-5xl px-8">
-          <div className="mb-16 text-center">
-            <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">La carte</p>
-            <h2 className="font-serif text-3xl font-semibold text-charcoal md:text-4xl">
-              Nos Pizzas Artisanales
-            </h2>
-            <div className="mx-auto mt-4 h-px w-16 bg-gold" />
-            <p className="mt-4 text-sm text-charcoal/50">
-              P&acirc;te fra&icirc;che maison &middot; Cuites au feu de bois &middot; De 10&nbsp;&agrave;&nbsp;16&nbsp;&euro;
-            </p>
-          </div>
+          <RevealOnScroll variant="fade-up">
+            <div className="mb-16 text-center">
+              <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">La carte</p>
+              <h2 className="font-serif text-3xl font-semibold text-charcoal md:text-4xl lg:text-5xl">
+                Nos Pizzas Artisanales
+              </h2>
+              <div className="mx-auto mt-4 h-px w-16 bg-gold" />
+              <p className="mx-auto mt-6 max-w-md text-sm font-light text-charcoal/50">
+                P&acirc;te fra&icirc;che maison &middot; Cuites au feu de bois &middot; De 10 &agrave; 16 &euro;
+              </p>
+            </div>
+          </RevealOnScroll>
+
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {PIZZAS.map((pizza) => (
-              <div key={pizza.name} className="flex items-center justify-between border border-warm-200 bg-white px-6 py-4 transition-all hover:border-gold/30 hover:shadow-sm">
-                <span className="text-sm font-medium text-charcoal">{pizza.name}</span>
-                <span className="text-sm font-semibold text-gold">{pizza.price}</span>
-              </div>
+            {PIZZAS.map((pizza, idx) => (
+              <RevealOnScroll key={pizza.name} variant="fade-scale" delay={idx * 50}>
+                <div className="group relative overflow-hidden border border-warm-200 bg-white transition-all duration-300 hover:border-gold/40 hover:shadow-lg">
+                  <div className="h-1 w-0 bg-gold transition-all duration-500 group-hover:w-full" />
+                  <div className="flex items-center justify-between p-5">
+                    <span className="font-serif text-sm font-semibold text-charcoal">{pizza.name}</span>
+                    <span className="font-serif text-base font-semibold text-gold">{pizza.price}</span>
+                  </div>
+                </div>
+              </RevealOnScroll>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ─── TAPAS & PARTAGER ─── */}
-      <section className="bg-charcoal py-24 md:py-32">
-        <div className="mx-auto max-w-5xl px-8">
+      {/* ─── TAPAS & SUPPLÉMENTS ─── */}
+      <section className="relative overflow-hidden bg-charcoal py-24 md:py-32">
+        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "url(/braises.jpg)", backgroundSize: "cover", backgroundPosition: "center" }} />
+        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(201,169,110,0.04) 0%, transparent 60%)" }} />
+
+        <div className="relative z-10 mx-auto max-w-5xl px-8">
           <div className="grid gap-16 md:grid-cols-2">
-            {/* Tapas & Partager */}
-            <div>
-              <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">
-                &Agrave; partager
-              </p>
-              <h2 className="font-serif text-2xl font-semibold text-white md:text-3xl">
-                Tapas &amp; Planches
-              </h2>
-              <div className="mt-4 h-px w-16 bg-gold" />
-              <div className="mt-8 space-y-0">
-                {TAPAS.map((item) => (
-                  <div key={item.name} className="flex items-center justify-between border-b border-white/5 py-4">
-                    <span className="text-sm font-light text-white/70">{item.name}</span>
-                    <span className="text-sm font-semibold text-gold">{item.price}</span>
-                  </div>
-                ))}
+            {/* Tapas */}
+            <RevealOnScroll variant="fade-left">
+              <div>
+                <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">
+                  &Agrave; partager
+                </p>
+                <h2 className="font-serif text-2xl font-semibold text-white md:text-3xl">
+                  Tapas &amp; Planches
+                </h2>
+                <div className="mt-4 h-px w-16 bg-gold" />
+                <div className="mt-8">
+                  {TAPAS.map((item, idx) => (
+                    <div key={item.name} className="group flex items-center justify-between border-b border-white/[0.06] py-4 transition-all hover:border-gold/20">
+                      <span className="text-sm font-light text-white/70 transition-colors group-hover:text-white">{item.name}</span>
+                      <div className="flex items-center gap-3">
+                        <div className="hidden h-px w-6 bg-gold/20 sm:block" />
+                        <span className="font-serif text-sm font-semibold text-gold">{item.price}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            </RevealOnScroll>
+
             {/* Suppléments */}
-            <div>
-              <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">
-                Personnalisez
-              </p>
-              <h2 className="font-serif text-2xl font-semibold text-white md:text-3xl">
-                Suppl&eacute;ments
-              </h2>
-              <div className="mt-4 h-px w-16 bg-gold" />
-              <div className="mt-8 space-y-0">
-                {SUPPLEMENTS.map((item) => (
-                  <div key={item.name} className="flex items-center justify-between border-b border-white/5 py-4">
-                    <span className="text-sm font-light text-white/70">{item.name}</span>
-                    <span className="text-sm font-semibold text-gold">+ {item.price}</span>
-                  </div>
-                ))}
+            <RevealOnScroll variant="fade-right">
+              <div>
+                <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">
+                  Personnalisez
+                </p>
+                <h2 className="font-serif text-2xl font-semibold text-white md:text-3xl">
+                  Suppl&eacute;ments
+                </h2>
+                <div className="mt-4 h-px w-16 bg-gold" />
+                <div className="mt-8">
+                  {SUPPLEMENTS.map((item) => (
+                    <div key={item.name} className="group flex items-center justify-between border-b border-white/[0.06] py-4 transition-all hover:border-gold/20">
+                      <span className="text-sm font-light text-white/70 transition-colors group-hover:text-white">{item.name}</span>
+                      <div className="flex items-center gap-3">
+                        <div className="hidden h-px w-6 bg-gold/20 sm:block" />
+                        <span className="font-serif text-sm font-semibold text-gold">+ {item.price}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            </RevealOnScroll>
           </div>
         </div>
       </section>
@@ -167,53 +224,46 @@ export default function Emporter() {
       {/* ─── HOW IT WORKS ─── */}
       <section className="bg-cream py-24 md:py-32">
         <div className="mx-auto max-w-4xl px-8">
-          <div className="mb-16 text-center">
-            <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">
-              Comment commander
-            </p>
-            <h2 className="font-serif text-3xl font-semibold text-charcoal md:text-4xl">
-              Simple et rapide
-            </h2>
-            <div className="mx-auto mt-4 h-px w-16 bg-gold" />
-          </div>
+          <RevealOnScroll variant="fade-up">
+            <div className="mb-16 text-center">
+              <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">
+                Comment commander
+              </p>
+              <h2 className="font-serif text-3xl font-semibold text-charcoal md:text-4xl lg:text-5xl">
+                Simple et rapide
+              </h2>
+              <div className="mx-auto mt-4 h-px w-16 bg-gold" />
+            </div>
+          </RevealOnScroll>
+
           <div className="grid gap-8 sm:grid-cols-3">
-            {[
-              {
-                step: "01",
-                title: "Appelez-nous",
-                desc: "Passez votre commande par t\u00e9l\u00e9phone au 05 59 43 94 72, du mardi au dimanche de 18h30 \u00e0 22h.",
-              },
-              {
-                step: "02",
-                title: "Pr\u00e9paration",
-                desc: "Nos pizzaïols pr\u00e9parent votre commande avec des produits frais et locaux, cuite au feu de bois.",
-              },
-              {
-                step: "03",
-                title: "R\u00e9cup\u00e9rez ou livraison",
-                desc: "Retirez au restaurant ou faites-vous livrer \u00e0 Sare, Saint-P\u00e9e-sur-Nivelle ou Ainhoa.",
-              },
-            ].map((item) => (
-              <div key={item.step} className="text-center">
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center bg-charcoal">
-                  <span className="font-serif text-lg font-semibold text-gold">{item.step}</span>
+            {ORDER_STEPS.map((item, idx) => (
+              <RevealOnScroll key={item.step} variant="fade-scale" delay={idx * 150}>
+                <div className="group text-center">
+                  <div className="relative mx-auto mb-6 flex h-16 w-16 items-center justify-center bg-charcoal text-gold transition-all duration-300 group-hover:bg-gold group-hover:text-white">
+                    {item.icon}
+                    <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center bg-gold text-[10px] font-bold text-white group-hover:bg-charcoal group-hover:text-gold">
+                      {item.step}
+                    </span>
+                  </div>
+                  <h3 className="font-serif text-lg font-semibold text-charcoal">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-charcoal/60">{item.desc}</p>
                 </div>
-                <h3 className="font-serif text-lg font-semibold text-charcoal">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal/60">{item.desc}</p>
-              </div>
+              </RevealOnScroll>
             ))}
           </div>
 
-          {/* CTA */}
-          <div className="mt-16 text-center">
-            <a
-              href="tel:0559439472"
-              className="inline-flex items-center gap-3 bg-gold px-10 py-4 text-sm font-semibold tracking-widest text-white uppercase transition-all hover:bg-gold-dark"
-            >
-              <PhoneIcon className="h-4 w-4" />
-              Commander maintenant
-            </a>
-          </div>
+          <RevealOnScroll variant="fade-up" delay={500}>
+            <div className="mt-16 text-center">
+              <a
+                href="tel:0559439472"
+                className="inline-flex items-center gap-3 bg-gold px-10 py-4 text-sm font-semibold tracking-widest text-white uppercase transition-all hover:bg-gold-dark"
+              >
+                <PhoneIcon className="h-4 w-4" />
+                Commander maintenant
+              </a>
+            </div>
+          </RevealOnScroll>
         </div>
       </section>
 

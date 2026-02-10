@@ -173,3 +173,22 @@ input:focus, select:focus, textarea:focus {
 .popup-card-out {
   animation: popupCardOut 0.3s ease-in both;
 }
+
+/* ─── Sticky banner animations ─── */
+@keyframes bannerSlideIn {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes bannerSlideOut {
+  from { transform: translateY(0); }
+  to { transform: translateY(100%); }
+}
+
+.banner-in {
+  animation: bannerSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.banner-out {
+  animation: bannerSlideOut 0.35s ease-in both;
+}

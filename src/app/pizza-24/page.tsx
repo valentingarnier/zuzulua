@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import NavBar from "../NavBar";
+import RevealOnScroll from "../RevealOnScroll";
 
 export const metadata: Metadata = {
   title: "Distributeur Pizza 24/7 — Zuzulua | Saint-Pée-sur-Nivelle",
@@ -18,8 +19,42 @@ const PIZZAS = [
 
 const AUTRES = [
   { name: "Tacos", desc: "Viande hach\u00e9e, tomates fra\u00eeches, frites, sauce fromag\u00e8re", price: "8 \u20ac" },
-  { name: "Chicken Burger", desc: "Poulet pané, salade, sauce maison", price: "7,50 \u20ac" },
+  { name: "Chicken Burger", desc: "Poulet pan\u00e9, salade, sauce maison", price: "7,50 \u20ac" },
   { name: "Cordon Bleu", desc: "Cordon bleu artisanal", price: "12,50 \u20ac" },
+];
+
+const STEPS = [
+  {
+    step: "01",
+    title: "Choisissez",
+    desc: "S\u00e9lectionnez votre pizza ou tacos sur l\u2019\u00e9cran tactile du distributeur.",
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+      </svg>
+    ),
+  },
+  {
+    step: "02",
+    title: "Payez",
+    desc: "R\u00e9glez par carte bancaire ou en esp\u00e8ces, directement au distributeur.",
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+      </svg>
+    ),
+  },
+  {
+    step: "03",
+    title: "D\u00e9gustez",
+    desc: "Votre commande est pr\u00eate en quelques minutes. Chaude et croustillante !",
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1.001A3.75 3.75 0 0012 18z" />
+      </svg>
+    ),
+  },
 ];
 
 function PhoneIcon({ className = "h-5 w-5" }: { className?: string }) {
@@ -36,83 +71,122 @@ export default function Pizza24() {
       <NavBar />
 
       {/* ─── HERO ─── */}
-      <section className="relative bg-charcoal pt-40 pb-24 md:pb-32">
-        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "url(/braises.jpg)", backgroundSize: "cover", backgroundPosition: "center" }} />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(26,26,26,0.95) 0%, rgba(26,26,26,0.9) 100%)" }} />
+      <section className="relative overflow-hidden bg-charcoal pt-40 pb-28 md:pb-36">
+        <div className="absolute inset-0 opacity-25" style={{ backgroundImage: "url(/braises.jpg)", backgroundSize: "cover", backgroundPosition: "center" }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(26,26,26,0.95) 0%, rgba(26,26,26,0.85) 50%, rgba(26,26,26,0.98) 100%)" }} />
+        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 60%, rgba(201,169,110,0.06) 0%, transparent 70%)" }} />
+
         <div className="relative z-10 mx-auto max-w-4xl px-8 text-center">
-          <div className="mx-auto mb-6 inline-block bg-gold/10 px-4 py-2">
-            <span className="text-xs font-semibold tracking-wider text-gold uppercase">
-              Disponible 24h/24 &middot; 7j/7
+          {/* Pulsing availability badge */}
+          <div className="mx-auto mb-8 inline-flex items-center gap-2.5 border border-gold/30 px-5 py-2.5" style={{ backgroundColor: "rgba(201,169,110,0.08)" }}>
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
+            </span>
+            <span className="text-xs font-semibold tracking-[0.3em] text-gold uppercase">
+              Ouvert 24h/24 &middot; 7j/7
             </span>
           </div>
+
+          {/* Big typographic "24/7" */}
+          <div className="mb-6 flex items-center justify-center gap-4">
+            <div className="h-px flex-1 max-w-16 bg-gold/30" />
+            <span className="font-serif text-7xl font-bold text-gold md:text-8xl">24<span className="text-gold/40">/7</span></span>
+            <div className="h-px flex-1 max-w-16 bg-gold/30" />
+          </div>
+
           <h1 className="font-serif text-3xl font-semibold text-white md:text-4xl lg:text-5xl">
             Distributeur de Pizzas
           </h1>
-          <div className="mx-auto mt-4 h-px w-16 bg-gold" />
-          <p className="mx-auto mt-6 max-w-xl text-base font-light text-white/50">
+          <p className="mx-auto mt-6 max-w-xl text-base font-light leading-relaxed text-white/50">
             Nos pizzas et tacos artisanaux disponibles &agrave; toute heure
             au distributeur automatique, directement sur le parking du restaurant.
           </p>
 
-          {/* Location */}
           <a
             href="https://www.google.com/maps/dir//Zuzulua+Saint-P%C3%A9e-sur-Nivelle"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-10 inline-flex items-center gap-3 border border-gold/50 px-8 py-4 text-sm font-semibold tracking-widest text-gold uppercase transition-all hover:bg-gold/10"
+            className="mt-10 inline-flex items-center gap-3 bg-gold px-10 py-4 text-sm font-semibold tracking-widest text-white uppercase transition-all hover:bg-gold-dark"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 0115 0z" />
             </svg>
-            Itin&eacute;raire &middot; Parking du restaurant
+            Itin&eacute;raire
           </a>
+          <p className="mt-3 text-xs font-light text-white/30">
+            Parking du restaurant &middot; Saint-P&eacute;e-sur-Nivelle
+          </p>
         </div>
       </section>
 
       {/* ─── PIZZAS ─── */}
       <section className="bg-cream py-24 md:py-32">
-        <div className="mx-auto max-w-4xl px-8">
-          <div className="mb-16 text-center">
-            <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">Au distributeur</p>
-            <h2 className="font-serif text-3xl font-semibold text-charcoal md:text-4xl">
-              Nos Pizzas
-            </h2>
-            <div className="mx-auto mt-4 h-px w-16 bg-gold" />
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {PIZZAS.map((pizza) => (
-              <div key={pizza.name} className="flex items-start justify-between border border-warm-200 bg-white p-6 transition-all hover:border-gold/30 hover:shadow-sm">
-                <div>
-                  <h3 className="text-sm font-semibold text-charcoal">{pizza.name}</h3>
-                  <p className="mt-1 text-xs text-charcoal/50">{pizza.desc}</p>
+        <div className="mx-auto max-w-5xl px-8">
+          <RevealOnScroll variant="fade-up">
+            <div className="mb-16 text-center">
+              <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">La carte</p>
+              <h2 className="font-serif text-3xl font-semibold text-charcoal md:text-4xl lg:text-5xl">
+                Nos Pizzas Artisanales
+              </h2>
+              <div className="mx-auto mt-4 h-px w-16 bg-gold" />
+              <p className="mx-auto mt-6 max-w-md text-sm font-light text-charcoal/50">
+                P&acirc;te fra&icirc;che maison &middot; Cuites au feu de bois &middot; De 9,50 &agrave; 13,50 &euro;
+              </p>
+            </div>
+          </RevealOnScroll>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {PIZZAS.map((pizza, idx) => (
+              <RevealOnScroll key={pizza.name} variant="fade-scale" delay={idx * 80}>
+                <div className="group relative overflow-hidden border border-warm-200 bg-white transition-all duration-300 hover:border-gold/40 hover:shadow-lg">
+                  {/* Gold top accent */}
+                  <div className="h-1 w-0 bg-gold transition-all duration-500 group-hover:w-full" />
+                  <div className="flex items-start justify-between p-6">
+                    <div>
+                      <h3 className="font-serif text-base font-semibold text-charcoal">{pizza.name}</h3>
+                      <p className="mt-1.5 text-xs leading-relaxed text-charcoal/50">{pizza.desc}</p>
+                    </div>
+                    <span className="shrink-0 ml-4 font-serif text-lg font-semibold text-gold">{pizza.price}</span>
+                  </div>
                 </div>
-                <span className="shrink-0 text-sm font-semibold text-gold">{pizza.price}</span>
-              </div>
+              </RevealOnScroll>
             ))}
           </div>
         </div>
       </section>
 
       {/* ─── TACOS & AUTRES ─── */}
-      <section className="bg-charcoal py-24 md:py-32">
-        <div className="mx-auto max-w-4xl px-8">
-          <div className="mb-16 text-center">
-            <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">&Eacute;galement disponibles</p>
-            <h2 className="font-serif text-3xl font-semibold text-white md:text-4xl">
-              Tacos &amp; Burgers
-            </h2>
-            <div className="mx-auto mt-4 h-px w-16 bg-gold" />
-          </div>
-          <div className="mx-auto max-w-lg space-y-0">
-            {AUTRES.map((item) => (
-              <div key={item.name} className="flex items-start justify-between border-b border-white/5 py-5">
-                <div>
-                  <h3 className="text-sm font-medium text-white">{item.name}</h3>
-                  <p className="mt-1 text-xs text-white/40">{item.desc}</p>
+      <section className="relative overflow-hidden bg-charcoal py-24 md:py-32">
+        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "url(/braises.jpg)", backgroundSize: "cover", backgroundPosition: "center" }} />
+        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(201,169,110,0.04) 0%, transparent 60%)" }} />
+
+        <div className="relative z-10 mx-auto max-w-4xl px-8">
+          <RevealOnScroll variant="fade-up">
+            <div className="mb-16 text-center">
+              <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">&Eacute;galement disponibles</p>
+              <h2 className="font-serif text-3xl font-semibold text-white md:text-4xl lg:text-5xl">
+                Tacos &amp; Burgers
+              </h2>
+              <div className="mx-auto mt-4 h-px w-16 bg-gold" />
+            </div>
+          </RevealOnScroll>
+
+          <div className="mx-auto max-w-xl">
+            {AUTRES.map((item, idx) => (
+              <RevealOnScroll key={item.name} variant="fade-up" delay={idx * 100}>
+                <div className="group flex items-center justify-between border-b border-white/[0.06] py-6 transition-all hover:border-gold/20">
+                  <div>
+                    <h3 className="text-base font-medium text-white transition-colors group-hover:text-gold">{item.name}</h3>
+                    <p className="mt-1 text-xs text-white/40">{item.desc}</p>
+                  </div>
+                  <div className="ml-6 flex items-center gap-3">
+                    <div className="hidden h-px w-8 bg-gold/20 sm:block" />
+                    <span className="shrink-0 font-serif text-lg font-semibold text-gold">{item.price}</span>
+                  </div>
                 </div>
-                <span className="shrink-0 text-sm font-semibold text-gold">{item.price}</span>
-              </div>
+              </RevealOnScroll>
             ))}
           </div>
         </div>
@@ -121,56 +195,49 @@ export default function Pizza24() {
       {/* ─── HOW IT WORKS ─── */}
       <section className="bg-cream py-24 md:py-32">
         <div className="mx-auto max-w-4xl px-8">
-          <div className="mb-16 text-center">
-            <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">Mode d&apos;emploi</p>
-            <h2 className="font-serif text-3xl font-semibold text-charcoal md:text-4xl">
-              Comment &ccedil;a marche ?
-            </h2>
-            <div className="mx-auto mt-4 h-px w-16 bg-gold" />
-          </div>
+          <RevealOnScroll variant="fade-up">
+            <div className="mb-16 text-center">
+              <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">Mode d&apos;emploi</p>
+              <h2 className="font-serif text-3xl font-semibold text-charcoal md:text-4xl lg:text-5xl">
+                Comment &ccedil;a marche ?
+              </h2>
+              <div className="mx-auto mt-4 h-px w-16 bg-gold" />
+            </div>
+          </RevealOnScroll>
+
           <div className="grid gap-8 sm:grid-cols-3">
-            {[
-              {
-                step: "01",
-                title: "Choisissez",
-                desc: "S\u00e9lectionnez votre pizza ou tacos sur l\u2019\u00e9cran tactile du distributeur.",
-              },
-              {
-                step: "02",
-                title: "Payez",
-                desc: "R\u00e9glez par carte bancaire ou en esp\u00e8ces, directement au distributeur.",
-              },
-              {
-                step: "03",
-                title: "D\u00e9gustez",
-                desc: "Votre commande est pr\u00eate en quelques minutes. Chaude et croustillante, \u00e0 toute heure !",
-              },
-            ].map((item) => (
-              <div key={item.step} className="text-center">
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center bg-charcoal">
-                  <span className="font-serif text-lg font-semibold text-gold">{item.step}</span>
+            {STEPS.map((item, idx) => (
+              <RevealOnScroll key={item.step} variant="fade-scale" delay={idx * 150}>
+                <div className="group text-center">
+                  <div className="relative mx-auto mb-6 flex h-16 w-16 items-center justify-center bg-charcoal text-gold transition-all duration-300 group-hover:bg-gold group-hover:text-white">
+                    {item.icon}
+                    <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center bg-gold text-[10px] font-bold text-white group-hover:bg-charcoal group-hover:text-gold">
+                      {item.step}
+                    </span>
+                  </div>
+                  <h3 className="font-serif text-lg font-semibold text-charcoal">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-charcoal/60">{item.desc}</p>
                 </div>
-                <h3 className="font-serif text-lg font-semibold text-charcoal">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal/60">{item.desc}</p>
-              </div>
+              </RevealOnScroll>
             ))}
           </div>
 
-          {/* Map CTA */}
-          <div className="mt-16 text-center">
-            <a
-              href="https://www.google.com/maps/dir//Zuzulua+Saint-P%C3%A9e-sur-Nivelle"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-gold px-10 py-4 text-sm font-semibold tracking-widest text-white uppercase transition-all hover:bg-gold-dark"
-            >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 0115 0z" />
-              </svg>
-              Itin&eacute;raire
-            </a>
-          </div>
+          <RevealOnScroll variant="fade-up" delay={500}>
+            <div className="mt-16 text-center">
+              <a
+                href="https://www.google.com/maps/dir//Zuzulua+Saint-P%C3%A9e-sur-Nivelle"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-gold px-10 py-4 text-sm font-semibold tracking-widest text-white uppercase transition-all hover:bg-gold-dark"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 0115 0z" />
+                </svg>
+                Itin&eacute;raire
+              </a>
+            </div>
+          </RevealOnScroll>
         </div>
       </section>
 
