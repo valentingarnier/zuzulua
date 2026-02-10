@@ -76,3 +76,100 @@ input:focus, select:focus, textarea:focus {
 .animate-marquee-cards {
   animation: marquee-cards 80s linear infinite;
 }
+
+/* ─── Scroll reveal animations ─── */
+.reveal-fade-up,
+.reveal-fade-scale,
+.reveal-fade-left,
+.reveal-fade-right {
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-fade-up {
+  transform: translateY(40px);
+}
+
+.reveal-fade-scale {
+  transform: translateY(30px) scale(0.95);
+}
+
+.reveal-fade-left {
+  transform: translateX(-40px);
+}
+
+.reveal-fade-right {
+  transform: translateX(40px);
+}
+
+.reveal-fade-up.is-revealed,
+.reveal-fade-scale.is-revealed,
+.reveal-fade-left.is-revealed,
+.reveal-fade-right.is-revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1) translateX(0);
+}
+
+/* Gold line grow animation */
+@keyframes lineGrow {
+  from { width: 0; }
+  to { width: 4rem; }
+}
+
+.animate-line-grow {
+  animation: lineGrow 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.3s;
+  width: 0;
+}
+
+/* ─── First-visit popup animations ─── */
+@keyframes popupBackdropIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popupBackdropOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes popupCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes popupCardOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+}
+
+.popup-backdrop-in {
+  animation: popupBackdropIn 0.35s ease-out both;
+}
+
+.popup-backdrop-out {
+  animation: popupBackdropOut 0.35s ease-in both;
+}
+
+.popup-card-in {
+  animation: popupCardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.1s;
+}
+
+.popup-card-out {
+  animation: popupCardOut 0.3s ease-in both;
+}

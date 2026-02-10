@@ -1,10 +1,12 @@
 import NavBar from "./NavBar";
 import ImageCarousel from "./ImageCarousel";
+import RevealOnScroll from "./RevealOnScroll";
 
 const MENU_SECTIONS = [
   {
     title: "Tapas",
     description: "À partir de 6,50 €",
+    icon: "tapas",
     items: [
       "Pâté Basque maison",
       "Jambon Ibérico",
@@ -15,12 +17,14 @@ const MENU_SECTIONS = [
       "Saucisse confite (Porc Basque sans OGM)",
     ],
     note: "Selon saison et arrivage",
+    signature: null,
   },
   {
     title: "Viandes et Poissons",
     description: "Au feu de bois",
+    icon: "flame",
     items: [
-      "Côte de Bœuf — notre signature",
+      "Côte de Bœuf",
       "Pluma Bellota",
       "Entrecôte · Faux-filet",
       "Andouillette",
@@ -30,10 +34,12 @@ const MENU_SECTIONS = [
       "Gambas sauvages",
     ],
     note: "Selon saison et arrivage",
+    signature: "Côte de Bœuf",
   },
   {
     title: "Plats Régionaux",
     description: "L\u2019âme du Pays Basque",
+    icon: "region",
     items: [
       "Axoa de veau d\u2019Espelette",
       "Magret de canard",
@@ -42,18 +48,45 @@ const MENU_SECTIONS = [
       "Assiette Etxea",
     ],
     note: "1er prix au concours du meilleur Axoa de Veau 2018 et 2019",
+    signature: "Axoa de veau d\u2019Espelette",
   },
   {
     title: "Pizzas Artisanales",
     description: "Cuites au feu de bois",
+    icon: "pizza",
     items: [
       "Pâte fraîche maison",
       "Produits frais et locaux",
       "Également disponibles à emporter",
     ],
     from: "À partir de 10 €",
+    signature: null,
   },
 ];
+
+const MENU_ICONS: Record<string, React.ReactNode> = {
+  tapas: (
+    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
+    </svg>
+  ),
+  flame: (
+    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1.001A3.75 3.75 0 0012 18z" />
+    </svg>
+  ),
+  region: (
+    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5" />
+    </svg>
+  ),
+  pizza: (
+    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513M15 8.25v-1.5m-6 1.5v-1.5m12 9.75l-1.5.75a3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0L3 16.5m15-3.379a48.474 48.474 0 00-6-.371c-2.032 0-4.034.126-6 .371m12 0c.39.049.777.102 1.163.16 1.07.16 1.837 1.094 1.837 2.175v5.169c0 .621-.504 1.125-1.125 1.125H4.125A1.125 1.125 0 013 20.625v-5.17c0-1.08.768-2.014 1.837-2.174A47.78 47.78 0 016 13.12M12.265 3.11a.375.375 0 11-.53 0L12 2.845l.265.265z" />
+    </svg>
+  ),
+};
 
 const REVIEWS = [
   {
@@ -268,51 +301,120 @@ export default function Home() {
       </section>
 
       {/* ─── LA CARTE ─── */}
-      <section id="carte" className="bg-charcoal py-24 md:py-32">
-        <div className="mx-auto max-w-6xl px-8">
-          <div className="mb-16 text-center">
-            <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">
-              La Carte
-            </p>
-            <h2 className="font-serif text-3xl font-semibold text-white md:text-4xl lg:text-5xl">
-              Selon saison et arrivage
-            </h2>
-            <div className="mx-auto mt-4 h-px w-16 bg-gold" />
-          </div>
+      <section id="carte" className="relative bg-charcoal py-24 md:py-32 overflow-hidden">
+        {/* Subtle background texture */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "url(/braises.jpg)", backgroundSize: "cover", backgroundPosition: "center" }} />
+        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(201,169,110,0.04) 0%, transparent 60%)" }} />
+
+        <div className="relative z-10 mx-auto max-w-6xl px-8">
+          <RevealOnScroll variant="fade-up">
+            <div className="mb-20 text-center">
+              <p className="mb-3 text-xs font-semibold tracking-[0.3em] text-gold uppercase">
+                La Carte
+              </p>
+              <h2 className="font-serif text-3xl font-semibold text-white md:text-4xl lg:text-5xl">
+                Selon saison et arrivage
+              </h2>
+              <div className="mx-auto mt-4 h-px w-16 bg-gold animate-line-grow" />
+              <p className="mx-auto mt-6 max-w-md text-sm font-light text-white/40">
+                Des produits de qualit&eacute; qui mettent &agrave; l&apos;honneur la cuisine locale et l&apos;esprit grillade
+              </p>
+            </div>
+          </RevealOnScroll>
+
           <div className="grid gap-8 sm:grid-cols-2">
-            {MENU_SECTIONS.map((section) => (
-              <div key={section.title} className="border border-white/10 p-8 transition-all hover:border-gold/30 hover:bg-white/5">
-                <h3 className="font-serif text-xl font-semibold text-white">{section.title}</h3>
-                <p className="mt-1 text-sm font-light text-gold">{section.description}</p>
-                <div className="my-4 h-px w-full bg-white/10" />
-                <ul className="space-y-2">
-                  {section.items.map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-sm font-light text-white/60">
-                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-gold" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                {section.from && (
-                  <p className="mt-6 text-xs font-semibold tracking-wider text-white/40 uppercase">{section.from}</p>
-                )}
-                {section.note && (
-                  <p className="mt-6 text-xs font-medium tracking-wider text-gold/80 italic">{section.note}</p>
-                )}
-              </div>
+            {MENU_SECTIONS.map((section, idx) => (
+              <RevealOnScroll
+                key={section.title}
+                variant="fade-scale"
+                delay={idx * 150}
+              >
+                <div
+                  className="group relative h-full border border-white/10 bg-white/[0.02] p-8 transition-all duration-300 hover:border-gold/30 hover:bg-white/[0.05] md:p-10"
+                >
+                  {/* Gold corner accents */}
+                  <div className="absolute top-0 left-0 h-8 w-px bg-gold/0 transition-all duration-500 group-hover:h-12 group-hover:bg-gold/50" />
+                  <div className="absolute top-0 left-0 h-px w-8 bg-gold/0 transition-all duration-500 group-hover:w-12 group-hover:bg-gold/50" />
+                  <div className="absolute right-0 bottom-0 h-8 w-px bg-gold/0 transition-all duration-500 group-hover:h-12 group-hover:bg-gold/50" />
+                  <div className="absolute right-0 bottom-0 h-px w-8 bg-gold/0 transition-all duration-500 group-hover:w-12 group-hover:bg-gold/50" />
+
+                  {/* Header */}
+                  <div className="mb-6 flex items-start justify-between">
+                    <div>
+                      <h3 className="font-serif text-2xl font-semibold text-white">{section.title}</h3>
+                      <p className="mt-1 text-sm font-light text-gold/80">{section.description}</p>
+                    </div>
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center border border-white/10 text-gold/50 transition-all duration-300 group-hover:border-gold/30 group-hover:text-gold">
+                      {MENU_ICONS[section.icon]}
+                    </div>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="relative mb-6">
+                    <div className="h-px w-full bg-white/10" />
+                    <div className="absolute left-0 top-0 h-px w-0 bg-gold/40 transition-all duration-700 group-hover:w-full" />
+                  </div>
+
+                  {/* Items */}
+                  <ul className="space-y-3">
+                    {section.items.map((item) => {
+                      const isSig = section.signature === item;
+                      return (
+                        <li key={item} className={`flex items-start gap-3 text-sm ${isSig ? "font-medium text-white" : "font-light text-white/60"}`}>
+                          {isSig ? (
+                            <svg className="mt-0.5 h-4 w-4 shrink-0 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                          ) : (
+                            <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-gold/50" />
+                          )}
+                          {item}
+                          {isSig && <span className="ml-auto shrink-0 text-[10px] font-semibold tracking-wider text-gold uppercase">Signature</span>}
+                        </li>
+                      );
+                    })}
+                  </ul>
+
+                  {/* Footer */}
+                  <div className="mt-6">
+                    {section.from && (
+                      <p className="text-xs font-semibold tracking-wider text-white/40 uppercase">{section.from}</p>
+                    )}
+                    {section.note && (
+                      <div className="flex items-start gap-2">
+                        <div className="mt-0.5 h-3 w-px shrink-0 bg-gold/50" />
+                        <p className="text-xs font-medium tracking-wider text-gold/70 italic">{section.note}</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Card number */}
+                  <div className="absolute right-4 bottom-4 font-serif text-5xl font-bold leading-none text-white/[0.03] transition-colors duration-300 group-hover:text-gold/[0.06]">
+                    {String(idx + 1).padStart(2, "0")}
+                  </div>
+                </div>
+              </RevealOnScroll>
             ))}
           </div>
+
           {/* Phone CTA after menu */}
-          <div className="mt-16 text-center">
-            <p className="mb-4 text-sm text-white/40">Pour r&eacute;server ou commander</p>
-            <a
-              href="tel:0559439472"
-              className="inline-flex items-center gap-3 bg-gold px-10 py-4 text-sm font-semibold tracking-widest text-white uppercase transition-all hover:bg-gold-dark"
-            >
-              <PhoneIcon className="h-4 w-4" />
-              05 59 43 94 72
-            </a>
-          </div>
+          <RevealOnScroll variant="fade-up" delay={600}>
+            <div className="mt-20 text-center">
+              <div className="mx-auto mb-6 flex max-w-xs items-center gap-4">
+                <div className="h-px flex-1 bg-white/10" />
+                <span className="text-[10px] font-semibold tracking-[0.3em] text-white/20 uppercase">R&eacute;servation</span>
+                <div className="h-px flex-1 bg-white/10" />
+              </div>
+              <p className="mb-6 text-sm text-white/40">Pour r&eacute;server ou commander</p>
+              <a
+                href="tel:0559439472"
+                className="inline-flex items-center gap-3 bg-gold px-12 py-5 text-base font-semibold tracking-widest text-white uppercase transition-all hover:bg-gold-dark"
+              >
+                <PhoneIcon className="h-5 w-5" />
+                05 59 43 94 72
+              </a>
+            </div>
+          </RevealOnScroll>
         </div>
       </section>
 
@@ -370,13 +472,18 @@ export default function Home() {
               </p>
               <div className="mt-6 h-px w-full bg-warm-200" />
               <div className="mt-6 flex flex-wrap items-center gap-4">
-                <div className="flex items-center gap-3">
+                <a
+                  href="https://www.google.com/maps/dir//Zuzulua+Saint-P%C3%A9e-sur-Nivelle"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-charcoal transition-colors hover:text-gold"
+                >
                   <svg className="h-5 w-5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 0115 0z" />
                   </svg>
-                  <span className="text-sm text-charcoal/60">Sur le parking</span>
-                </div>
+                  Itin&eacute;raire
+                </a>
                 <a href="/pizza-24" className="inline-flex items-center gap-2 text-sm font-semibold text-gold transition-colors hover:text-gold-dark">
                   D&eacute;couvrir
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

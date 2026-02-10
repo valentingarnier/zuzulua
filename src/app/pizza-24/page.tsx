@@ -55,13 +55,18 @@ export default function Pizza24() {
           </p>
 
           {/* Location */}
-          <div className="mt-8 flex items-center justify-center gap-2">
-            <svg className="h-5 w-5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <a
+            href="https://www.google.com/maps/dir//Zuzulua+Saint-P%C3%A9e-sur-Nivelle"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-10 inline-flex items-center gap-3 border border-gold/50 px-8 py-4 text-sm font-semibold tracking-widest text-gold uppercase transition-all hover:bg-gold/10"
+          >
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 0115 0z" />
             </svg>
-            <span className="text-sm text-white/50">Parking du restaurant &middot; Saint-P&eacute;e-sur-Nivelle</span>
-          </div>
+            Itin&eacute;raire &middot; Parking du restaurant
+          </a>
         </div>
       </section>
 
