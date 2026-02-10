@@ -333,25 +333,11 @@ export default function Home() {
                 variant="fade-scale"
                 delay={idx * 150}
               >
-                <div className="group relative h-full overflow-hidden">
-                  {/* Photo background with zoom */}
-                  <div
-                    className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-110"
-                    style={{
-                      backgroundImage: `url(${section.image})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                  />
-                  {/* Gradient overlay — heavy at bottom for readability */}
-                  <div
-                    className="absolute inset-0 transition-opacity duration-500"
-                    style={{ background: "linear-gradient(to top, #1a1a1a 40%, rgba(26,26,26,0.88) 65%, rgba(26,26,26,0.55) 100%)" }}
-                  />
+                <div className="group relative h-full overflow-hidden border border-white/10 bg-white/[0.02] transition-all duration-300 hover:border-gold/30 hover:bg-white/[0.05]">
                   {/* Hover glow */}
                   <div
                     className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                    style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(201,169,110,0.08) 0%, transparent 70%)" }}
+                    style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(201,169,110,0.06) 0%, transparent 70%)" }}
                   />
                   {/* Gold left accent bar */}
                   <div className="absolute top-0 left-0 z-20 h-full w-1 bg-gold/0 transition-all duration-500 group-hover:bg-gold/50" />
